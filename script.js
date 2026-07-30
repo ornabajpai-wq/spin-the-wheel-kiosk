@@ -1,8 +1,7 @@
-https://script.google.com/macros/s/AKfycbyxInIhvSZhFY2FbRtKlB6V0Pr7lj6PE6gmy8r3ec53faV4iAk1YWAhC_SZ98SAiyH1/exec
 // ============================================================
 // 1. CONFIG — paste your Google Apps Script Web App URL here
 // ============================================================
-const SCRIPT_URL = "PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyxInIhvSZhFY2FbRtKlB6V0Pr7lj6PE6gmy8r3ec53faV4iAk1YWAhC_SZ98SAiyH1/exec";
 
 // ============================================================
 // 2. GAME DATA — must match the 3 segments in the CSS conic-gradient
