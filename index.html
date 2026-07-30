@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Spin &amp; Discover</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="stage">
+
+  <!-- SCREEN 1 — DETAILS -->
+  <section id="screen-form" class="screen active">
+    <div class="card">
+      <p class="eyebrow">STEP 1 · YOUR DETAILS</p>
+      <h1 class="headline">Let's get you<br>spinning</h1>
+      <p class="subcopy">Pop in your details and we'll take you straight to the wheel.</p>
+
+      <form id="detailsForm" novalidate>
+        <label class="field">
+          <span>Name</span>
+          <input type="text" id="nameInput" name="name" placeholder="Your full name" required autocomplete="name">
+        </label>
+        <label class="field">
+          <span>Phone number</span>
+          <input type="tel" id="phoneInput" name="phone" placeholder="10-digit mobile number" required pattern="[0-9]{10}" maxlength="10" inputmode="numeric" autocomplete="tel">
+        </label>
+        <p class="error-msg" id="formError"></p>
+        <button type="submit" class="btn">Continue to the wheel →</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- SCREEN 2 — WHEEL -->
+  <section id="screen-wheel" class="screen">
+    <div class="card wheel-card">
+      <p class="eyebrow">STEP 2 · SPIN</p>
+      <h1 class="headline" id="wheelHeadline">Give it a spin</h1>
+      <p class="subcopy">One spin. Three possibilities. Let's see what you get.</p>
+
+      <div class="wheel-wrap">
+        <div class="pointer" id="pointer"><span></span></div>
+        <div class="wheel-outer">
+          <div class="wheel" id="wheel">
+            <div class="label" style="--ang:60deg"><span>Risk‑o‑meter</span></div>
+            <div class="label" style="--ang:180deg"><span>Financial<br>Health Checkup</span></div>
+            <div class="label" style="--ang:300deg"><span>Rapid Fire</span></div>
+          </div>
+          <div class="hub" id="hub">SPIN</div>
+        </div>
+      </div>
+
+      <button id="spinBtn" class="btn">Spin the wheel</button>
+    </div>
+  </section>
+
+  <!-- SCREEN 3 — RESULT (full screen reveal) -->
+  <section id="screen-result" class="screen result-screen">
+    <p class="eyebrow" id="resultEyebrow">YOUR GAME IS</p>
+    <h1 class="result-headline" id="resultText">—</h1>
+    <p class="result-sub" id="resultSub"></p>
+    <button id="restartBtn" class="btn ghost">Start again</button>
+  </section>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
