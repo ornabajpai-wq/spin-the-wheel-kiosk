@@ -27,7 +27,7 @@ function doPost(e) {
 
   // Add header row the first time the sheet is used
   if (sheet.getLastRow() === 0) {
-    sheet.appendRow(["Timestamp", "Name", "Phone", "Game"]);
+    sheet.appendRow(["Timestamp", "Name", "Phone", "Email", "Age", "Game"]);
   }
 
   var data = JSON.parse(e.postData.contents);
@@ -36,6 +36,8 @@ function doPost(e) {
     data.timestamp || new Date().toISOString(),
     data.name || "",
     data.phone || "",
+    data.email || "",
+    data.age || "",
     data.game || ""
   ]);
 

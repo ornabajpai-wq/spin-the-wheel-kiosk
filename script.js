@@ -31,7 +31,7 @@ const GAMES = [
 // ============================================================
 // 3. STATE + ELEMENT REFERENCES
 // ============================================================
-let visitor = { name: "", phone: "" };
+let visitor = { name: "", phone: "", email: "", age: "" };
 let currentRotation = 0;
 let spinning = false;
 
@@ -42,6 +42,8 @@ const screenResult = document.getElementById("screen-result");
 const detailsForm = document.getElementById("detailsForm");
 const nameInput = document.getElementById("nameInput");
 const phoneInput = document.getElementById("phoneInput");
+const emailInput = document.getElementById("emailInput");
+const ageInput = document.getElementById("ageInput");
 const formError = document.getElementById("formError");
 
 const wheelHeadline = document.getElementById("wheelHeadline");
@@ -70,6 +72,8 @@ detailsForm.addEventListener("submit", function (e) {
   e.preventDefault();
   const name = nameInput.value.trim();
   const phone = phoneInput.value.trim();
+  const email = emailInput.value.trim();
+  const age = ageInput.value.trim();
 
   if (!name) {
     formError.textContent = "Please enter your name.";
@@ -79,10 +83,20 @@ detailsForm.addEventListener("submit", function (e) {
     formError.textContent = "Please enter a valid 10-digit phone number.";
     return;
   }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    formError.textContent = "Please enter a valid email address.";
+    return;
+  }
+  if (!age || Number(age) < 1 || Number(age) > 120) {
+    formError.textContent = "Please enter a valid age.";
+    return;
+  }
 
   formError.textContent = "";
   visitor.name = name;
   visitor.phone = phone;
+  visitor.email = email;
+  visitor.age = age;
 
   wheelHeadline.innerHTML = `Give it a spin,<br>${escapeHtml(firstName(name))}`;
   showScreen(screenWheel);
@@ -158,6 +172,8 @@ function logSubmission(gameName) {
   const payload = {
     name: visitor.name,
     phone: visitor.phone,
+    email: visitor.email,
+    age: visitor.age,
     game: gameName,
     timestamp: new Date().toISOString()
   };
@@ -179,7 +195,7 @@ function logSubmission(gameName) {
 // 8. RESTART (resets the kiosk for the next visitor)
 // ============================================================
 restartBtn.addEventListener("click", function () {
-  visitor = { name: "", phone: "" };
+  visitor = { name: "", phone: "", email: "", age: "" };
   currentRotation = 0;
 
   wheelEl.style.transition = "none";

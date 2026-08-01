@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=2">
+<link rel="stylesheet" href="style.css?v=3">
 </head>
 <body>
 
@@ -28,6 +28,14 @@
         <label class="field">
           <span>Phone number</span>
           <input type="tel" id="phoneInput" name="phone" placeholder="10-digit mobile number" required pattern="[0-9]{10}" maxlength="10" inputmode="numeric" autocomplete="tel">
+        </label>
+        <label class="field">
+          <span>Email address</span>
+          <input type="email" id="emailInput" name="email" placeholder="you@example.com" required autocomplete="email">
+        </label>
+        <label class="field">
+          <span>Age</span>
+          <input type="number" id="ageInput" name="age" placeholder="Your age" required min="1" max="120" inputmode="numeric" autocomplete="off">
         </label>
         <p class="error-msg" id="formError"></p>
         <button type="submit" class="btn">Continue to the wheel →</button>
@@ -68,6 +76,6 @@
 
 </div>
 
-<script src="script.js?v=2"></script>
+<script src="script.js?v=3"></script>
 </body>
 </html>
