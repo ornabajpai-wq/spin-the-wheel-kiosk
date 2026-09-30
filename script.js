@@ -45,6 +45,16 @@ async function getNextGameIndex() {
 // ============================================================
 let visitor = { name: "", phone: "", email: "", age: "" };
 let currentRotation = 0;
+
+// The next game is requested from the backend the moment the wheel screen
+// opens, so it is usually ready before the person taps Spin.
+let slotPromise = null;
+let slotReady = false;
+function prefetchSlot() {
+  slotReady = false;
+  slotPromise = getNextGameIndex();
+  slotPromise.then(() => { slotReady = true; });
+}
 let spinning = false;
 
 const screenForm = document.getElementById("screen-form");
@@ -111,6 +121,7 @@ detailsForm.addEventListener("submit", function (e) {
   visitor.age = age;
 
   wheelHeadline.innerHTML = `Give it a spin,<br>${escapeHtml(firstName(name))}`;
+  prefetchSlot();
   showScreen(screenWheel);
 });
 
@@ -133,7 +144,15 @@ async function spin() {
   spinBtn.disabled = true;
   pointerEl.classList.add("ticking");
 
-  const idx = await getNextGameIndex();
+  // If the backend hasn't answered yet (slow connection / cold start), start
+  // turning the wheel right away so the tap never feels ignored, then steer
+  // it to the right game once the answer arrives.
+  if (!slotReady) {
+    currentRotation += 360 * 4;
+    wheelEl.style.transition = "transform 4s linear";
+    wheelEl.style.transform = `rotate(${currentRotation}deg)`;
+  }
+  const idx = await slotPromise;
   const game = GAMES[idx];
 
   // pick a random landing point inside the segment, away from the edges
