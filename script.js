@@ -4,29 +4,16 @@
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyxInIhvSZhFY2FbRtKlB6V0Pr7lj6PE6gmy8r3ec53faV4iAk1YWAhC_SZ98SAiyH1/exec";
 
 // ============================================================
-// 2. GAME DATA — must match the 3 segments in the CSS conic-gradient
-//    (each segment is 120deg, starting at 0deg / top, going clockwise)
+// 2. GAME DATA — must match the 4 segments in the CSS conic-gradient
+//    (each segment is 90deg, starting at 0deg / top, going clockwise)
 // ============================================================
 const GAMES = [
-  {
-    name: "Risk-o-meter",
-    start: 0,
-    theme: "brass",
-    tagline: "Let's map out how much risk you're really comfortable with."
-  },
-  {
-    name: "Financial Health Checkup",
-    start: 120,
-    theme: "coral",
-    tagline: "A quick, honest check-up for your money."
-  },
-  {
-    name: "Rapid Fire",
-    start: 240,
-    theme: "teal",
-    tagline: "Quick questions. Quicker answers."
-  }
+  { name: "Risk-o-meter",     start: 0,   theme: "brass", tagline: "Let's map out how much risk you're really comfortable with." },
+  { name: "The Pyramid Game", start: 90,  theme: "coral", tagline: "Climb the pyramid, one answer at a time." },
+  { name: "Investors Idol",   start: 180, theme: "teal",  tagline: "Show us your investor instincts." },
+  { name: "Money Talks",      start: 270, theme: "navy",  tagline: "Let's talk money, plainly." }
 ];
+const SEGMENT = 360 / GAMES.length; // 90deg each
 
 // ============================================================
 // 3. STATE + ELEMENT REFERENCES
@@ -125,8 +112,8 @@ function spin() {
   const game = GAMES[idx];
 
   // pick a random landing point inside the segment, away from the edges
-  const edgeMargin = 14;
-  const within = edgeMargin + Math.random() * (120 - edgeMargin * 2);
+  const edgeMargin = 12;
+  const within = edgeMargin + Math.random() * (SEGMENT - edgeMargin * 2);
   const targetAngle = game.start + within;
 
   // extra full spins for effect
@@ -152,7 +139,7 @@ hubEl.addEventListener("click", spin);
 // 7. STEP 3 — FULL SCREEN RESULT + LOG TO GOOGLE SHEET
 // ============================================================
 function revealResult(game) {
-  screenResult.classList.remove("theme-brass", "theme-coral", "theme-teal");
+  screenResult.classList.remove("theme-brass", "theme-coral", "theme-teal", "theme-navy");
   screenResult.classList.add("theme-" + game.theme);
 
   resultEyebrow.textContent = "YOUR GAME IS";
