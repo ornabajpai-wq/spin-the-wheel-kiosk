@@ -15,6 +15,31 @@ const GAMES = [
 ];
 const SEGMENT = 360 / GAMES.length; // 90deg each
 
+// Shared rotation order — the same for every visitor on every device.
+// Spin #1 (anyone) -> Risk-o-meter, #2 -> Investors Idol, #3 -> Money Talks,
+// #4 -> The Pyramid Game, then it repeats from #5.
+const SEQUENCE = ["Risk-o-meter", "Investors Idol", "Money Talks", "The Pyramid Game"];
+
+// Asks the Google Sheet backend for the next slot in the shared sequence.
+// The backend keeps one global counter, so two people spinning on different
+// phones can never get the same slot. Falls back to random only if offline.
+async function getNextGameIndex() {
+  try {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 6000);
+    const res = await fetch(SCRIPT_URL + "?action=next", { signal: ctrl.signal });
+    clearTimeout(timer);
+    const data = await res.json();
+    if (typeof data.slot === "number") {
+      const name = SEQUENCE[data.slot % SEQUENCE.length];
+      return GAMES.findIndex(g => g.name === name);
+    }
+  } catch (err) {
+    console.warn("Could not reach the counter, picking randomly instead.", err);
+  }
+  return Math.floor(Math.random() * GAMES.length);
+}
+
 // ============================================================
 // 3. STATE + ELEMENT REFERENCES
 // ============================================================
@@ -102,13 +127,13 @@ function escapeHtml(str) {
 // ============================================================
 // 6. STEP 2 — SPIN THE WHEEL
 // ============================================================
-function spin() {
+async function spin() {
   if (spinning) return;
   spinning = true;
   spinBtn.disabled = true;
   pointerEl.classList.add("ticking");
 
-  const idx = Math.floor(Math.random() * GAMES.length);
+  const idx = await getNextGameIndex();
   const game = GAMES[idx];
 
   // pick a random landing point inside the segment, away from the edges

@@ -46,10 +46,35 @@ function doPost(e) {
     .setMimeType(ContentService.MimeType.JSON);
 }
 
-// Optional: lets you visit the web app URL directly in a browser to
-// confirm the deployment is live.
+// GET ?action=next  -> hands out the next slot number in the shared rotation.
+// One global counter (stored in Script Properties) is advanced under a lock,
+// so every spin from every device gets a unique, consecutive slot.
+// GET (no action)   -> just confirms the deployment is live.
 function doGet(e) {
+  var action = e && e.parameter && e.parameter.action;
+
+  if (action === "next") {
+    var lock = LockService.getScriptLock();
+    lock.waitLock(10000);
+    try {
+      var props = PropertiesService.getScriptProperties();
+      var slot = Number(props.getProperty("SPIN_COUNT") || 0);
+      props.setProperty("SPIN_COUNT", String(slot + 1));
+      return ContentService
+        .createTextOutput(JSON.stringify({ slot: slot }))
+        .setMimeType(ContentService.MimeType.JSON);
+    } finally {
+      lock.releaseLock();
+    }
+  }
+
   return ContentService
     .createTextOutput(JSON.stringify({ status: "Spin wheel backend is running" }))
     .setMimeType(ContentService.MimeType.JSON);
+}
+
+// Run this once from the Apps Script editor if you ever want the rotation
+// to start again from Risk-o-meter (e.g. before the event begins).
+function resetRotation() {
+  PropertiesService.getScriptProperties().setProperty("SPIN_COUNT", "0");
 }
