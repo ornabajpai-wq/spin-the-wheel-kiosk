@@ -9,7 +9,7 @@ const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyxInIhvSZhFY2FbRtKl
 // ============================================================
 const GAMES = [
   { name: "Risk-o-meter",     start: 0,   theme: "brass", tagline: "Let's map out how much risk you're really comfortable with." },
-  { name: "The Pyramid Game", start: 90,  theme: "coral", tagline: "Climb the pyramid, one answer at a time." },
+  { name: "The Pyramid Game", start: 90,  theme: "coral", tagline: "Build your wealth, one block at a time." },
   { name: "Investors Idol",   start: 180, theme: "teal",  tagline: "Show us your investor instincts." },
   { name: "Money Talks",      start: 270, theme: "navy",  tagline: "Let's talk money, plainly." }
 ];
